@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluentTB — Windows Taskbar Customization</title>
+  <meta name="description" content="FluentTB lets you customize your Windows 11 taskbar with rounded corners, custom margins, and automatic updates." />
+  <meta property="og:title" content="FluentTB" />
+  <meta property="og:description" content="Customize your Windows 11 taskbar with rounded corners and custom margins." />
+  <meta property="og:image" content="https://shinob1kai.github.io/FluentTB/assets/banner.png" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #161616;
+      --surface2:  #1e1e1e;
+      --border:    #2a2a2a;
+      --accent:    #0078d4;
+      --accent-h:  #1a8be8;
+      --text:      #f3f3f3;
+      --muted:     #8a8a8a;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 56px;
+      background: rgba(13,13,13,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .6rem; font-weight: 600; font-size: 1.05rem; text-decoration: none; color: var(--text); }
+    .nav-logo img { width: 24px; height: 24px; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .9rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,120,212,.18), transparent);
+    }
+    .hero-icon { width: 96px; height: 96px; border-radius: 22px; margin-bottom: 1.5rem; box-shadow: 0 8px 32px rgba(0,120,212,.3); }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -.02em; }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      max-width: 560px; color: var(--muted); font-size: 1.1rem;
+      margin: 1rem auto 2.5rem;
+    }
+    .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .7rem 1.6rem;
+      border-radius: 8px;
+      font-size: .95rem; font-weight: 600;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 4px 16px rgba(0,120,212,.35);
+    }
+    .btn-primary:hover { background: var(--accent-h); box-shadow: 0 6px 20px rgba(0,120,212,.5); }
+    .btn-secondary {
+      background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: #252525; }
+    .btn svg { flex-shrink: 0; }
+
+    .version-badge {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: .3rem .9rem;
+      border-radius: 999px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: .8rem; color: var(--muted);
+    }
+    .version-badge span { color: var(--accent); font-weight: 600; }
+
+    /* ── SECTION WRAPPER ─────────────────────────────────── */
+    section { max-width: 1000px; margin: 0 auto; padding: 4rem 1.5rem; }
+    h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 2rem; }
+    h2 small { display: block; font-size: .85rem; font-weight: 400; color: var(--muted); margin-top: .25rem; }
+
+    /* ── FEATURES ────────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.4rem 1.2rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .feature-icon { font-size: 1.6rem; margin-bottom: .8rem; }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .4rem; }
+    .feature-card p { font-size: .875rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── DOWNLOAD ────────────────────────────────────────── */
+    #download { border-top: 1px solid var(--border); }
+    .download-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .dl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .dl-card.recommended { border-color: var(--accent); }
+    .dl-card-top { display: flex; align-items: flex-start; gap: 1rem; }
+    .dl-card-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.3rem;
+    }
+    .dl-card.recommended .dl-card-icon { background: rgba(0,120,212,.15); }
+    .dl-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .2rem; }
+    .dl-card p { font-size: .85rem; color: var(--muted); line-height: 1.45; }
+    .badge-rec {
+      display: inline-block; margin-left: .5rem;
+      padding: .1rem .5rem; border-radius: 999px;
+      background: rgba(0,120,212,.2); color: var(--accent);
+      font-size: .7rem; font-weight: 700; vertical-align: middle;
+    }
+    .dl-btn {
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .6rem 1rem;
+      border-radius: 8px;
+      background: var(--accent); color: #fff;
+      text-decoration: none; font-size: .875rem; font-weight: 600;
+      transition: background .15s, transform .15s;
+    }
+    .dl-btn:hover { background: var(--accent-h); transform: translateY(-1px); }
+    .dl-card:not(.recommended) .dl-btn {
+      background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .dl-card:not(.recommended) .dl-btn:hover { background: #252525; }
+
+    .req-note {
+      margin-top: 1.5rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: .875rem; color: var(--muted);
+      display: flex; align-items: flex-start; gap: .75rem;
+    }
+    .req-note span { flex-shrink: 0; font-size: 1.1rem; }
+
+    /* ── HOW IT WORKS ────────────────────────────────────── */
+    #howto { border-top: 1px solid var(--border); }
+    .steps { display: flex; flex-direction: column; gap: 1rem; }
+    .step {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+    }
+    .step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem; flex-shrink: 0; margin-top: .1rem;
+    }
+    .step h3 { font-size: .95rem; font-weight: 600; margin-bottom: .2rem; }
+    .step p { font-size: .875rem; color: var(--muted); }
+    code {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; padding: .1em .4em;
+      font-size: .85em; font-family: 'Cascadia Code', 'Consolas', monospace;
+      color: #c9d1d9;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    footer .footer-row { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: .75rem; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .hero { padding: 4rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="assets/icon.png" alt="FluentTB Icon" />
+    FluentTB
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="#howto">How to use</a>
+    <a href="https://github.com/shinob1kai/FluentTB" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-icon" src="assets/icon.png" alt="FluentTB" />
+  <h1>Fluent<span>TB</span></h1>
+  <p>Customize your Windows 11 taskbar with rounded corners, custom margins, and automatic updates — all running quietly in the background.</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#download">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13m0 0-4-4m4 4 4-4M4 20h16"/></svg>
+      Download
+    </a>
+    <a class="btn btn-secondary" href="https://github.com/shinob1kai/FluentTB" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.744 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      View on GitHub
+    </a>
+  </div>
+  <div class="version-badge">Latest release <span>v2026.3.1</span> · Windows 10/11 x64</div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <h2>Features <small>What FluentTB brings to your taskbar</small></h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⬛</div>
+      <h3>Rounded Corners</h3>
+      <p>Add a smooth corner radius to your taskbar — from subtle to fully rounded.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">↔️</div>
+      <h3>Custom Margins</h3>
+      <p>Set individual top, bottom, left and right margins. Use negative values to pin the taskbar to a screen edge.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3>Auto Updates</h3>
+      <p>FluentTB checks for updates every 24 hours in the background and notifies you via Windows notification. One click installs.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🖥️</div>
+      <h3>Tray Control</h3>
+      <p>Show or hide the system clock and tray at any time. Quick toggle with <kbd>Win+F2</kbd>. Also supports hover-to-reveal.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🪟</div>
+      <h3>Fill on Maximize</h3>
+      <p>Automatically expands the taskbar back to full width when a window is maximised or the Task Switcher opens.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎨</div>
+      <h3>TranslucentTB Compatible</h3>
+      <p>Works side-by-side with TranslucentTB 2021.5+ for blur and transparency effects on your floating taskbar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="download">
+  <h2>Download <small>Pick the format that works for you</small></h2>
+  <div class="download-cards">
+
+    <div class="dl-card recommended">
+      <div class="dl-card-top">
+        <div class="dl-card-icon">🛠️</div>
+        <div>
+          <h3>Installer <span class="badge-rec">Recommended</span></h3>
+          <p>Full installation with Start Menu shortcut and optional autostart. Easy uninstall via Windows Settings.</p>
+        </div>
+      </div>
+      <a class="dl-btn" href="https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.1/FluentTB-Setup-2026.3.1.exe">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13m0 0-4-4m4 4 4-4M4 20h16"/></svg>
+        FluentTB-Setup-2026.3.1.exe
+      </a>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card-top">
+        <div class="dl-card-icon">📦</div>
+        <div>
+          <h3>MSI Package</h3>
+          <p>Windows Installer package — suitable for enterprise deployment or Group Policy.</p>
+        </div>
+      </div>
+      <a class="dl-btn" href="https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.1/FluentTB.msi">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13m0 0-4-4m4 4 4-4M4 20h16"/></svg>
+        FluentTB.msi
+      </a>
+    </div>
+
+    <div class="dl-card">
+      <div class="dl-card-top">
+        <div class="dl-card-icon">🗜️</div>
+        <div>
+          <h3>Portable ZIP</h3>
+          <p>No installation needed. Extract anywhere and run. Config is stored next to the executable.</p>
+        </div>
+      </div>
+      <a class="dl-btn" href="https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.1/FluentTB-2026.3.1-Portable.zip">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 3v13m0 0-4-4m4 4 4-4M4 20h16"/></svg>
+        FluentTB-2026.3.1-Portable.zip
+      </a>
+    </div>
+
+  </div>
+
+  <div class="req-note">
+    <span>ℹ️</span>
+    <div><strong>Requirements:</strong> Windows 10 or Windows 11 — 64-bit. .NET Framework 4.8 (pre-installed on Windows 11). No additional dependencies needed.</div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section id="howto">
+  <h2>How to use <small>Up and running in under a minute</small></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Install &amp; Launch</h3>
+        <p>Run the installer and launch FluentTB. It appears in your system tray — right-click the icon to open settings.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>Adjust Margin &amp; Corner Radius</h3>
+        <p>Use the <strong>Margin</strong> slider to shrink the taskbar on all sides, and the <strong>Corner radius</strong> slider to round the corners.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Fine-tune with Advanced Options</h3>
+        <p>Click <strong>Advanced</strong> to set each side's margin independently, toggle tray visibility, enable TranslucentTB compatibility, or control fill-on-maximize behavior.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <h3>Apply &amp; Done</h3>
+        <p>Hit <strong>Apply</strong> to save. Settings persist across reboots. Use <code>Win+F2</code> to quickly toggle the system tray at any time.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div>
+        <h3>Updates happen automatically</h3>
+        <p>FluentTB checks for updates every 24 hours in the background. When one is available you'll get a Windows notification — just click it to install.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-row">
+    <a href="https://github.com/shinob1kai/FluentTB" target="_blank">GitHub</a>
+    <a href="https://github.com/shinob1kai/FluentTB/releases" target="_blank">Releases</a>
+    <a href="https://github.com/shinob1kai/FluentTB/issues" target="_blank">Report a bug</a>
+    <a href="https://github.com/torchgm/RoundedTB" target="_blank">Based on RoundedTB</a>
+    <a href="https://github.com/shinob1kai/FluentTB/blob/main/LICENSE" target="_blank">License (GPL-3.0)</a>
+  </div>
+  <p>© 2026 Shinob1Kai · FluentTB is based on <a href="https://github.com/torchgm/RoundedTB">RoundedTB</a> by torchgm</p>
+</footer>
+
+</body>
+</html>
