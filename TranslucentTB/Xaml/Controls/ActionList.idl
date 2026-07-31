@@ -1,8 +1,0 @@
-namespace TranslucentTB.Xaml.Controls
-{
-	[default_interface]
-	runtimeclass ActionList : Windows.UI.Xaml.Controls.ItemsControl
-	{
-		ActionList();
-	}
-}

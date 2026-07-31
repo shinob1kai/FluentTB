@@ -280,6 +280,29 @@ namespace FluentTB
                 catch (InvalidOperationException) { }
                 ShowMenuItem.Header = "Hide FluentTB";
             }
+            
+            // Start automatic background update checker
+            StartAutoUpdateChecker();
+            
+            // Setup notification click handler for updates
+            TrayIcon.TrayBalloonTipClicked += async (s, e) =>
+            {
+                if (_pendingUpdate != null)
+                {
+                    var result = MessageBox.Show(
+                        $"Install FluentTB {_pendingUpdate.TagName}?\n\n" +
+                        $"The app will close and the installer will run.",
+                        "Install Update",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question
+                    );
+                    
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        await UpdateManager.DownloadAndInstallUpdate(_pendingUpdate);
+                    }
+                }
+            };
         }
 
 
@@ -1219,49 +1242,56 @@ namespace FluentTB
             ib.ShowDialog();
         }
         
+        // Auto-update timer (checks every 24 hours)
+        private DispatcherTimer _updateTimer;
+        
         private async void checkUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            checkUpdateButton.IsEnabled = false;
-            checkUpdateButton.Content = "Checking...";
-            
+            // This button is now hidden - updates run automatically
+            // Keep method for potential manual trigger
+            await CheckForUpdatesAsync(showNoUpdateMessage: true);
+        }
+        
+        /// <summary>
+        /// Checks for updates in background and shows Windows notification if available
+        /// </summary>
+        private async Task CheckForUpdatesAsync(bool showNoUpdateMessage = false)
+        {
             try
             {
                 var update = await UpdateManager.CheckForUpdatesAsync();
                 
                 if (update == null)
                 {
-                    MessageBox.Show(
-                        "Could not check for updates.\nPlease check your internet connection.",
-                        "Update Check Failed",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning
-                    );
+                    if (showNoUpdateMessage)
+                    {
+                        ShowNotification(
+                            "Update Check Failed",
+                            "Could not check for updates. Please check your internet connection.",
+                            Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning
+                        );
+                    }
+                    return;
                 }
-                else if (UpdateManager.IsNewerVersion(update.TagName))
+                
+                if (UpdateManager.IsNewerVersion(update.TagName))
                 {
-                    var result = MessageBox.Show(
-                        $"A new version is available!\n\n" +
-                        $"Current: v{UpdateManager.GetCurrentVersion()}\n" +
-                        $"Latest: {update.TagName}\n\n" +
-                        $"Would you like to download and install it?",
-                        "Update Available",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Information
+                    // New version available - show Windows notification
+                    ShowNotification(
+                        "FluentTB Update Available",
+                        $"Version {update.TagName} is available!\nClick to install.",
+                        Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info
                     );
                     
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        await UpdateManager.DownloadAndInstallUpdate(update);
-                    }
+                    // Store update info for notification click handler
+                    _pendingUpdate = update;
                 }
-                else
+                else if (showNoUpdateMessage)
                 {
-                    MessageBox.Show(
-                        $"You are running the latest version!\n\n" +
-                        $"Current version: v{UpdateManager.GetCurrentVersion()}",
-                        "No Updates Available",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information
+                    ShowNotification(
+                        "FluentTB Up-to-Date",
+                        $"You are running the latest version (v{UpdateManager.GetCurrentVersion()})",
+                        Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info
                     );
                 }
                 
@@ -1269,19 +1299,50 @@ namespace FluentTB
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Update check error: {ex.Message}");
-                MessageBox.Show(
-                    $"Update check failed:\n{ex.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
+                interaction?.AddLog($"Auto-update check error: {ex.Message}");
+                if (showNoUpdateMessage)
+                {
+                    ShowNotification(
+                        "Update Check Error",
+                        $"Failed to check for updates: {ex.Message}",
+                        Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error
+                    );
+                }
             }
-            finally
+        }
+        
+        private UpdateManager.UpdateInfo _pendingUpdate;
+        
+        /// <summary>
+        /// Shows a Windows notification balloon tip
+        /// </summary>
+        private void ShowNotification(string title, string message, Hardcodet.Wpf.TaskbarNotification.BalloonIcon icon)
+        {
+            if (TrayIcon != null)
             {
-                checkUpdateButton.Content = "Updates";
-                checkUpdateButton.IsEnabled = true;
+                TrayIcon.ShowBalloonTip(title, message, icon);
             }
+        }
+        
+        /// <summary>
+        /// Starts automatic update checks (every 24 hours in background)
+        /// </summary>
+        private void StartAutoUpdateChecker()
+        {
+            // Check immediately on startup (if last check was > 24h ago)
+            Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(30)); // Wait 30s after startup
+                await Dispatcher.InvokeAsync(async () => await CheckForUpdatesAsync(showNoUpdateMessage: false));
+            });
+            
+            // Setup timer for periodic checks (every 24 hours)
+            _updateTimer = new DispatcherTimer();
+            _updateTimer.Interval = TimeSpan.FromHours(24);
+            _updateTimer.Tick += async (s, e) => await CheckForUpdatesAsync(showNoUpdateMessage: false);
+            _updateTimer.Start();
+            
+            interaction?.AddLog("Auto-update checker started (checks every 24 hours)");
         }
 
     }

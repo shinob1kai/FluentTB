@@ -1,63 +1,108 @@
-# Build outputs
+# ============================================================
+# FluentTB — .gitignore
+# Nur Quellcode kommt ins Repo. Alles andere wird ignoriert.
+# ============================================================
+
+# ----------------------------
+# Build-Ausgaben
+# ----------------------------
 **/bin/
 **/obj/
-**/packages/
-**/.vs/
-**/.vscode/
+**/[Dd]ebug/
+**/[Rr]elease/
+**/x64/
+**/x86/
+**/[Aa][Rr][Mm]/
+**/[Aa][Rr][Mm]64/
+**/bld/
+**/[Ll]og/
 
-# User-specific files
+# ----------------------------
+# NuGet Packages (lokal gecacht)
+# ----------------------------
+**/packages/
+*.nupkg
+*.snupkg
+
+# ----------------------------
+# Installer-Ausgaben (werden gebaut, nicht versioniert)
+# ----------------------------
+src/Installer/Output/
+Installer/Output/
+*.wixobj
+*.wixpdb
+
+# ----------------------------
+# Temporäre & Backup-Dateien
+# ----------------------------
+*.tmp
+*.bak
+*.backup
+*.beforefix
+*~
+*.log
+debug-*.log
+
+# ----------------------------
+# Betriebssystem-Dateien
+# ----------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----------------------------
+# IDE / Editor
+# ----------------------------
+.vs/
+.vscode/
+.cursor/
+.idea/
 *.user
 *.suo
 *.userprefs
 *.userosscache
 *.sln.docstates
-
-# Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-
-# NuGet
-*.nupkg
-*.snupkg
-**/packages/*
-!**/packages/build/
-
-# Installer outputs
-src/Installer/Output/*.exe
-src/Installer/Output/*.msi
-src/Installer/Output/*.zip
-src/Installer/Output/*.ps1
-*.wixobj
-*.wixpdb
-
-# Temp files
-*.tmp
-*.log
-*.bak
-*.backup
-*~
-
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# IDE
-.idea/
 *.swp
 *.swo
 
-# Build scripts temp
-Reorganize-Repo.ps1
-Quick-Fix-Build-Errors.ps1
+# ----------------------------
+# Kiro IDE
+# ----------------------------
+.kiro/
+
+# ----------------------------
+# Verzeichnisse die nicht zum FluentTB-Projekt gehören
+# (RoundedTB und TranslucentTB sind Referenz-Quellen, kein eigener Code)
+# ----------------------------
+RoundedTB/
+TranslucentTB/
+RoundedTB-Canary-UI and Screenshots/
+Old FluentTB Code before the One now Used/
+
+# ----------------------------
+# Hilfsdateien / AI-generierte Markdown-Notizen
+# ----------------------------
 BUILD-INSTRUCTIONS.md
 FINAL-STEPS.md
-debug-*.log
+FINALE-ZUSAMMENFASSUNG.md
+FIXES-APPLIED.md
+GITHUB-UPLOAD.md
+GITHUB-UPLOAD-FINAL.md
+MICROSOFT-STORE-GUIDE.md
+PARTNER-CENTER-ANLEITUNG.md
+STORE-ASSETS-GUIDE.md
+STORE-READY-STATUS.md
+UPDATE-SYSTEM.md
+UPDATE-SYSTEM-SUMMARY.md
+promtp.txt
+Quick-Fix-Build-Errors.ps1
+Reorganize-Repo.ps1
+Create-Store-Assets.ps1
+Update-Store-Assets.ps1
+
+# ----------------------------
+# Sonstige Artefakte
+# ----------------------------
+*.zip
+FluentTB.zip
+nuget.exe

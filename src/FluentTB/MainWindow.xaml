@@ -33,8 +33,9 @@
         <Slider x:Name="cornerRadiusSlider" Margin="10,128,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="125" ValueChanged="cornerRadiusSlider_ValueChanged" LargeChange="0" SmallChange="1" Focusable="False" Maximum="48" Orientation="Horizontal" Thumb.DragCompleted="cornerRadiusSlider_DragCompleted"/>
         <Button x:Name="applyButton" Content="Apply" Style="{StaticResource AccentButtonStyle}" Margin="10,290,0,0" Click="ApplyButton_Click" Height="32" Width="125" VerticalAlignment="Top" />
         <Button x:Name="advancedButton" Content="Advanced" Margin="10,204,0,0" Width="125" Click="advancedButton_Click" VerticalAlignment="Top"/>
-        <Button x:Name="aboutButton" Content="Help &amp; About" Margin="10,247,0,0" VerticalAlignment="Top" Width="60" Click="aboutButton_Click"/>
-        <Button x:Name="checkUpdateButton" Content="Updates" Margin="75,247,0,0" VerticalAlignment="Top" Width="60" Click="checkUpdateButton_Click"/>
+        <Button x:Name="aboutButton" Content="Help &amp; About" Margin="10,247,0,0" VerticalAlignment="Top" Width="125" Click="aboutButton_Click"/>
+        <!-- Update button hidden - updates run automatically in background -->
+        <Button x:Name="checkUpdateButton" Content="Updates" Margin="75,247,0,0" VerticalAlignment="Top" Width="60" Click="checkUpdateButton_Click" Visibility="Collapsed"/>
 
         <Grid x:Name="AdvancedGrid" Margin="156,6,0,0" HorizontalAlignment="Left" Width="201" Height="347" VerticalAlignment="Top" Visibility="Visible">
             <Label x:Name="mTopLabel" Content="Top Margin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"/>

@@ -94,19 +94,21 @@
                                    FontSize="14"
                                    Opacity="0.8"
                                    LineHeight="23">
-                            • FluentTB branding and new icon set
+                            • Automatic background update checks (every 24 hours)
+                            <LineBreak/>
+                            • Windows notifications for available updates
+                            <LineBreak/>
+                            • One-click update installation via notification
                             <LineBreak/>
                             • Shell-hook based maximise detection — instant, no polling delay
                             <LineBreak/>
-                            • Reliable TranslucentTB compatibility (mutex-based detection, Unchecked handler fixed)
+                            • Reliable TranslucentTB compatibility (mutex-based detection)
                             <LineBreak/>
                             • Background worker restart no longer causes UI freezes
                             <LineBreak/>
-                            • Config and log paths updated to fluent-tb.json / fluent-tb.log
+                            • Modern Fluent Design with improved icon set
                             <LineBreak/>
-                            • Dynamic mode region calculation cleaned up
-                            <LineBreak/>
-                            <Bold>NOTE: Autohide is currently not supported.</Bold>
+                            <Bold>NOTE: Dynamic mode and Autohide are temporarily disabled in this version.</Bold>
                         </TextBlock>
                     </Grid>
                 </Expander>
@@ -154,8 +156,6 @@
                                    LineHeight="23">
                             <Bold>• [...] Margins</Bold> — sets each side's margin independently. Negative values attach the taskbar to a screen edge.
                             <LineBreak/>
-                            <Bold>• Dynamic mode</Bold> — resizes the taskbar to fit open apps, like macOS Dock.
-                            <LineBreak/>
                             <Bold>• Show system tray</Bold> — show/hide the clock &amp; tray. Toggle anytime with <Bold>Win+F2</Bold>.
                             <LineBreak/>
                             <Bold>• Show tray on hover</Bold> — shows the tray only when the mouse is over it.
@@ -166,7 +166,7 @@
                             <LineBreak/>
                             <Bold>• Fill on alt+tab</Bold> — also fills when the Task Switcher is open.
                             <LineBreak/>
-                            <Bold>• Shadow effect (test)</Bold> — adds an experimental shadow below the floating taskbar.
+                            <Bold>NOTE:</Bold> Dynamic mode and shadow effect are temporarily disabled in this release.
                         </TextBlock>
                     </Grid>
                 </Expander>
@@ -188,9 +188,9 @@
                                    LineHeight="23">
                             • Windows autohide causes heavy flickering and is not supported.
                             <LineBreak/>
-                            • Dynamic mode only works correctly when the taskbar is at the top or bottom.
+                            • Dynamic mode is temporarily disabled in this version and will be re-enabled in a future update.
                             <LineBreak/>
-                            • Taskbar mods other than TranslucentTB are not officially supported.
+                            • Taskbar modifications other than TranslucentTB are not officially supported.
                         </TextBlock>
                     </Grid>
                 </Expander>
@@ -210,14 +210,20 @@
                                    FontSize="14"
                                    Opacity="0.8"
                                    LineHeight="21">
-                            • Based on
+                            • FluentTB is based on
                             <Hyperlink NavigateUri="https://github.com/torchgm/RoundedTB"
                                        RequestNavigate="Hyperlink_RequestNavigate">
                                 RoundedTB by torchgm
                             </Hyperlink>
                             — licensed under the GNU General Public License v3.0.
                             <LineBreak/>
-                            • Source code and issue tracker on GitHub (link above).
+                            • FluentTB adds automatic updates, improved stability, and modern Fluent Design.
+                            <LineBreak/>
+                            • Updates are checked automatically every 24 hours in the background.
+                            <LineBreak/>
+                            • When an update is available, you'll receive a Windows notification.
+                            <LineBreak/>
+                            • Click the notification to start the update installation.
                         </TextBlock>
                     </Grid>
                 </Expander>
