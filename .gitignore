@@ -106,3 +106,10 @@ Update-Store-Assets.ps1
 *.zip
 FluentTB.zip
 nuget.exe
+
+# ----------------------------
+# GitHub Pages Download-Assets (Ausnahme: diese werden versioniert)
+# ----------------------------
+!docs/assets/*.exe
+!docs/assets/*.msi
+!docs/assets/*.zip
