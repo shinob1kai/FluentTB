@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  FluentTB WiX Installer
+  To build: 
+  1. Install WiX Toolset: https://wixtoolset.org/
+  2. Run: candle FluentTB.wxs
+  3. Run: light FluentTB.wixobj -out FluentTB.msi
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" 
+           Name="FluentTB" 
+           Language="1033" 
+           Version="26.3.1" 
+           Manufacturer="Shinob1Kai" 
+           UpgradeCode="A1B2C3D4-E5F6-4890-ABCD-1234567890AB">
+    
+    <Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Description="FluentTB - Windows Taskbar Customization"
+             Comments="Customize your Windows 11 taskbar with rounded corners and margins" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Feature definitions -->
+    <Feature Id="ProductFeature" 
+             Title="FluentTB" 
+             Level="1"
+             Description="Main application files"
+             ConfigurableDirectory="INSTALLFOLDER">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="StartupShortcut" />
+    </Feature>
+
+    <!-- UI Configuration -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <!-- Installation directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="FluentTB" />
+      </Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="FluentTB"/>
+      </Directory>
+      
+      <Directory Id="StartupFolder" />
+    </Directory>
+
+    <!-- Application Shortcut Component -->
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="B2C3D4E5-F6A7-4891-BCDE-2345678901BC">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="FluentTB"
+                  Description="Customize Windows Taskbar"
+                  Target="[INSTALLFOLDER]FluentTB.exe"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" 
+                       Key="Software\FluentTB" 
+                       Name="installed" 
+                       Type="integer" 
+                       Value="1" 
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!-- Startup Shortcut Component (optional) -->
+    <DirectoryRef Id="StartupFolder">
+      <Component Id="StartupShortcut" Guid="C3D4E5F6-A7B8-4892-CDEF-3456789012CD">
+        <Condition>ADDTOSTARTUP</Condition>
+        <Shortcut Id="StartupShortcutLink"
+                  Name="FluentTB"
+                  Target="[INSTALLFOLDER]FluentTB.exe"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <RegistryValue Root="HKCU" 
+                       Key="Software\FluentTB" 
+                       Name="startup" 
+                       Type="integer" 
+                       Value="1" 
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+  </Product>
+
+  <!-- Component Group for all application files -->
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- Main executable -->
+      <Component Id="FluentTB.exe" Guid="D4E5F6A7-B8C9-4893-DEF0-456789012DEF">
+        <File Id="FluentTB.exe" 
+              Source="..\FluentTB\bin\Release\FluentTB.exe" 
+              KeyPath="yes" 
+              Checksum="yes"/>
+      </Component>
+      
+      <!-- Add additional DLLs and resources here -->
+      <!-- Example:
+      <Component Id="SomeDependency.dll" Guid="...">
+        <File Source="..\FluentTB\bin\Release\SomeDependency.dll" />
+      </Component>
+      -->
+    </ComponentGroup>
+  </Fragment>
+</Wix>

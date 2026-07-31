@@ -1,0 +1,63 @@
+# Build outputs
+**/bin/
+**/obj/
+**/packages/
+**/.vs/
+**/.vscode/
+
+# User-specific files
+*.user
+*.suo
+*.userprefs
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# Installer outputs
+src/Installer/Output/*.exe
+src/Installer/Output/*.msi
+src/Installer/Output/*.zip
+src/Installer/Output/*.ps1
+*.wixobj
+*.wixpdb
+
+# Temp files
+*.tmp
+*.log
+*.bak
+*.backup
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Build scripts temp
+Reorganize-Repo.ps1
+Quick-Fix-Build-Errors.ps1
+BUILD-INSTRUCTIONS.md
+FINAL-STEPS.md
+debug-*.log

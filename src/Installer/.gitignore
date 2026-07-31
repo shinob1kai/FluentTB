@@ -1,0 +1,11 @@
+# Installer build artifacts
+Output/
+*.wixobj
+*.wixpdb
+*.msi
+*.exe
+!Build-All.bat
+
+# Temporary files
+*.log
+*.tmp

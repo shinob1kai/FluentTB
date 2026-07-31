@@ -1,0 +1,17 @@
+FluentTB Version 2026.3.1
+
+Version Format: YEAR.QUARTER.BUILD
+- YEAR: Current year (e.g., 2026)
+- QUARTER: Quarter number 1-4 (Q3 = July-September)
+- BUILD: Incremental build number within quarter
+
+Current Version: 2026.3.1
+Release Date: 2026-07-31 (Q3 2026)
+
+Version History:
+- 2026.3.1 - Initial release with RoundedTB UI
+
+Next versions:
+- 2026.3.2 - Next build in Q3 2026
+- 2026.4.1 - First build in Q4 2026 (Oct-Dec)
+- 2027.1.1 - First build in Q1 2027 (Jan-Mar)

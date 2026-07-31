@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+          Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Project identity
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <PropertyGroup>
+    <Configuration  Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform       Condition=" '$(Platform)'       == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FluentTB</RootNamespace>
+    <AssemblyName>FluentTB</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <ApplicationIcon>res\FluentTB.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <NuGetPackageImportStamp/>
+    <TargetFrameworkProfile/>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <Version>2026.3.1</Version>
+    <AssemblyVersion>2026.3.1.0</AssemblyVersion>
+    <FileVersion>2026.3.1.0</FileVersion>
+    <Company>Shinob1Kai</Company>
+    <Product>FluentTB</Product>
+    <Copyright>Copyright © 2026 Shinob1Kai</Copyright>
+  </PropertyGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Build configurations
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Framework & Windows references
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <Reference Include="netstandard"/>
+    <Reference Include="System"/>
+    <Reference Include="System.ComponentModel.Composition"/>
+    <Reference Include="System.Data"/>
+    <Reference Include="System.Drawing"/>
+    <Reference Include="System.IO.Compression.FileSystem"/>
+    <Reference Include="System.Numerics"/>
+    <Reference Include="System.Windows.Forms"/>
+    <Reference Include="System.Xml"/>
+    <Reference Include="Microsoft.CSharp"/>
+    <Reference Include="System.Core"/>
+    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase"/>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+    <!-- The project uses the classic .NET Framework format.  Keep explicit
+         assembly references so `dotnet build` can consume the locally restored
+         package assets just like Visual Studio/MSBuild does. -->
+    <Reference Include="Hardcodet.NotifyIcon.Wpf">
+      <HintPath>packages\hardcodet.notifyicon.wpf\1.1.0\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="DesktopBridge.Helpers">
+      <HintPath>packages\desktopbridge.helpers\1.2.1\lib\net45\DesktopBridge.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernWpf">
+      <HintPath>packages\modernwpfui\0.9.4\lib\net462\ModernWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\newtonsoft.json\13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime">
+      <HintPath>packages\system.runtime.windowsruntime\4.6.0\lib\netstandard2.0\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml">
+      <HintPath>packages\system.runtime.windowsruntime.ui.xaml\4.6.0\lib\netstandard2.0\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Windows">
+      <HintPath>packages\microsoft.windows.sdk.contracts\10.0.18362.2005\ref\netstandard2.0\Windows.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Source files
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+
+    <Page Include="AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+
+    <Page Include="Infobox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Infobox.xaml.cs">
+      <DependentUpon>Infobox.xaml</DependentUpon>
+    </Compile>
+
+    <Page Include="TaskbarEffect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="TaskbarEffect.xaml.cs">
+      <DependentUpon>TaskbarEffect.xaml</DependentUpon>
+    </Compile>
+
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AppBars.cs"/>
+    <Compile Include="AutoHideManager.cs"/>
+    <Compile Include="Background.cs"/>
+    <Compile Include="DebugLog.cs"/>
+    <Compile Include="IAppVisibility.cs"/>
+    <Compile Include="Interaction.cs"/>
+    <Compile Include="LocalPInvoke.cs"/>
+    <Compile Include="MonitorStuff.cs"/>
+    <Compile Include="NativeMethods.cs"/>
+    <Compile Include="Taskbar.cs"/>
+    <Compile Include="Types.cs"/>
+    <Compile Include="UpdateManager.cs"/>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Resources
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <None Include="App.config"/>
+    <None Include="app.manifest"/>
+    <None Include="FodyWeavers.xml"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="res\FluentTB.ico"/>
+    <Resource Include="res\TrayDark.ico"/>
+    <Resource Include="res\TrayLight.ico"/>
+    <Resource Include="res\Headbanner.png"/>
+    <Resource Include="res\HeadBannerCan.png"/>
+    <Resource Include="res\HeadBannerDev.png"/>
+  </ItemGroup>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       NuGet packages  (versions pinned — identical to RoundedTB base)
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <ItemGroup>
+    <PackageReference Include="Costura.Fody">
+      <Version>5.7.0</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <PackageReference Include="DesktopBridge.Helpers">
+      <Version>1.2.1</Version>
+    </PackageReference>
+
+    <PackageReference Include="Fody">
+      <Version>6.6.4</Version>
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
+      <Version>1.1.0</Version>
+    </PackageReference>
+
+    <PackageReference Include="ModernWpfUI">
+      <Version>0.9.4</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.WindowsRuntime">
+      <Version>4.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml">
+      <Version>4.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+
+
+  <Target Name="RemoveWinmdFromReferences" BeforeTargets="MarkupCompilePass1">
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Extension)' == '.winmd'" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+
+  <!-- Classic WPF projects normally receive this import from Visual Studio.
+       Keep it explicit so the project also builds through the standalone dotnet SDK. -->
+  <PropertyGroup>
+    <_WinFxTargetsPath Condition="Exists('$(MSBuildSDKsPath)\Microsoft.NET.Sdk.WindowsDesktop\targets\Microsoft.WinFX.targets')">$(MSBuildSDKsPath)\Microsoft.NET.Sdk.WindowsDesktop\targets\Microsoft.WinFX.targets</_WinFxTargetsPath>
+    <_WinFxTargetsPath Condition="'$(_WinFxTargetsPath)' == '' and Exists('$(MSBuildToolsPath)\Microsoft.WinFX.targets')">$(MSBuildToolsPath)\Microsoft.WinFX.targets</_WinFxTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(_WinFxTargetsPath)" Condition="'$(_WinFxTargetsPath)' != ''" />
+</Project>

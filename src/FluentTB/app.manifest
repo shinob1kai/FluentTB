@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assembly manifestVersion="1.0"
+          xmlns="urn:schemas-microsoft-com:asm.v1"
+          xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+
+  <assemblyIdentity version="1.0.0.0" name="FluentTB.app"/>
+
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+    <security>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <requestedExecutionLevel level="asInvoker" uiAccess="false"/>
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 11 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>
+    </application>
+  </compatibility>
+
+  <asmv3:application>
+    <windowsSettings
+        xmlns:ws2016="http://schemas.microsoft.com/SMI/2016/WindowsSettings"
+        xmlns:ws2019="http://schemas.microsoft.com/SMI/2019/WindowsSettings"
+        xmlns:ws2020="http://schemas.microsoft.com/SMI/2020/WindowsSettings">
+      <!-- Per-monitor DPI v2 for crisp rendering on mixed-DPI setups -->
+      <ws2016:dpiAwareness>PerMonitorV2</ws2016:dpiAwareness>
+      <ws2019:activeCodePage>UTF-8</ws2019:activeCodePage>
+      <ws2020:heapType>SegmentHeap</ws2020:heapType>
+      <ws2016:longPathAware>true</ws2016:longPathAware>
+    </windowsSettings>
+  </asmv3:application>
+
+</assembly>

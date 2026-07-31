@@ -1,0 +1,73 @@
+<wpfui:UiWindow x:Class="RoundedTB.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoundedTB"
+        xmlns:wpfui="clr-namespace:WPFUI.Controls;assembly=WPFUI"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        Name="MainGrid" Title="RoundedTB" Width="718" Height="458"
+        Background="#20808080" Visibility="Visible" Opacity="0.001" ResizeMode="NoResize">
+    <Grid>
+        <wpfui:TitleBar Name="mainTitleBar" UseNotifyIcon="True" 
+                        NotifyIconImage="pack://application:,,,/res/traydark.ico"
+                        NotifyIconTooltip="RoundedTB" ApplicationNavigation="True"
+                        Title="RoundedTB - Configuration" 
+                        Icon="pack://application:,,,/RoundedTBCanary.ico" Height="51" ShowMaximize="False">
+            <wpfui:TitleBar.NotifyIconMenu>
+                <ContextMenu>
+                    <MenuItem Name="StartupCheckBox" Header="Run at startup"/>
+                    <MenuItem Name="DebugMenuItem" Header="Debug" Visibility="Hidden"/>
+                    <MenuItem Name="ShowMenuItem" Header="Show RoundedTB"/>
+                    <MenuItem Name="CloseMenuItem" Header="Close RoundedTB"/>
+                </ContextMenu>
+            </wpfui:TitleBar.NotifyIconMenu>
+        </wpfui:TitleBar>
+
+        <Label Name="mTopLabel" Content="Top Margin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94"/>
+        <TextBox Name="mTopInput" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,0" Width="94"/>
+        
+        <Label Name="mBottomLabel" Content="Bottom Margin" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="108,0,0,0" Width="94"/>
+        <TextBox Name="mBottomInput" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="108,20,0,0" Width="94"/>
+
+        <Label Name="mLeftLabel" Content="Left Margin" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,56,0,0" Width="94"/>
+        <TextBox Name="mLeftInput" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,76,0,0" Width="94"/>
+
+        <Label Name="mRightLabel" Content="Right Margin" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="108,56,0,0" Width="84"/>
+        <TextBox Name="mRightInput" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="108,76,0,0" Width="94"/>
+
+        <Label Name="cornerRadiusLabel" Content="Corner radius" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Name="cornerRadiusInput" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Margin="108,19,0,0"/>
+        <Slider Name="cornerRadiusSlider" Orientation="Horizontal" Minimum="0" Maximum="48" SmallChange="1" LargeChange="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Height="10" Margin="0,25,0,0"/>
+
+        <CheckBox Name="dynamicCheckBox" Content="Dynamic mode" Margin="70,12,0,0" HorizontalAlignment="Left"/>
+        <CheckBox Name="showTrayCheckBox" Content="Show tray" Margin="70,12,0,0" Visibility="Hidden" HorizontalAlignment="Left"/>
+        <CheckBox Name="showWidgetsCheckBox" Content="Show widget" Margin="70,12,0,0" Visibility="Hidden" HorizontalAlignment="Left"/>
+        <CheckBox Name="showClockCheckBox" Content="Show clock" Margin="70,12,0,0" Visibility="Hidden" HorizontalAlignment="Left"/>
+        <CheckBox Name="centredCheckBox" Content="Centred taskbar?" Margin="10,62,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+        
+        <CheckBox Name="showSegmentsOnHoverCheckBox" Content="Show segments only when hovered over with the mouse - PERFORMANCE ISSUES" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox Name="fillMaximisedCheckBox" Content="When a window is maximised, restore the taskbar" Margin="0,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox Name="fillAltTabCheckBox" Content="When alt+tab or win+tab is pressed, restore the taskbar" Margin="0,60,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox Name="compositionFixCheckBox" Content="Improve compatibility with TranslucentTB and other mods (may cause flickering)" Margin="0,90,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False"/>
+
+        <ComboBox Name="autoHideComboBox" VerticalAlignment="Top" Margin="0,18,0,0">
+            <ComboBoxItem Content="Always show"/>
+            <ComboBoxItem Content="Always hide"/>
+            <ComboBoxItem Content="[unavailable]"/>
+        </ComboBox>
+
+        <wpfui:Button Name="aboutButton" Content="Help" Appearance="Secondary" Margin="0,0,10,47" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="133" Height="31"/>
+        <Button Name="applyButton" Content="Apply" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="133" Height="32"/>
+        <Button Name="splitHelpButton" Content="Click me!" Margin="107,122,0,0" VerticalAlignment="Top" Width="94" Height="32" Visibility="Hidden" FontWeight="SemiBold" FontFamily="Segoe UI Semibold" Opacity="0.001"/>
+
+        <Grid Name="tbDiagramGrid" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="486" Height="247">
+            <Rectangle Fill="#30242424" RadiusX="5" RadiusY="5"/>
+            <Rectangle Fill="#20808080" RadiusX="5" RadiusY="5"/>
+            <Rectangle Name="taskbarRectStandIn" Margin="126,0,126,5" VerticalAlignment="Bottom" Height="32" Fill="Primary"/>
+            <Rectangle Name="trayRectStandIn" Margin="415,0,5,5" VerticalAlignment="Bottom" Height="32" Fill="Secondary"/>
+            <Rectangle Name="widgetsRectStandIn" Margin="5,0,415,5" VerticalAlignment="Bottom" Height="32" Fill="Secondary"/>
+            <Rectangle Name="clockRectStandIn" Margin="415,0,5,60" VerticalAlignment="Bottom" Height="32" Fill="Secondary"/>
+        </Grid>
+    </Grid>
+</wpfui:UiWindow>
