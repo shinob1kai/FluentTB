@@ -6,6 +6,10 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Windows 11](https://img.shields.io/badge/platform-Windows%2011-0078D4.svg)](https://www.microsoft.com/windows)
 
+<a href="https://get.microsoft.com/installer/download/xp8lh1qwflht6c?referrer=appbadge" target="_self" >
+	<img src="https://get.microsoft.com/images/en-us%20light.svg" width="200"/>
+</a>
+
 ## ✨ Features
 
 - **Rounded Corners** - Add customizable corner radius to your taskbar
