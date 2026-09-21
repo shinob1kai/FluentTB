@@ -1,112 +1,96 @@
-# FluentTB Dev
+# FluentTB Dev-Edition
 
-Full development edition maintained by **Shinob1Kai**, including the FluentFlyout integration. Target branch: [Dev-Edition](https://github.com/shinob1kai/FluentTB/tree/Dev-Edition).
+The complete FluentTB and FluentFlyout integration, maintained by Shinob1Kai. The Dev-Edition branch is distributed as source only. Its MSI is produced locally for private installation and must not be attached to public GitHub releases. The in-app Dev update link opens the source branch, not Public binary releases.
 
-> Integration status: this document describes the current 2026.3.6.0 integration working tree. The remote branch was created from the older repository. Adding this README alone does not transfer the newer application code; the integration files must also be committed before these build instructions apply there. Build scripts do not publish or merge changes.
-
-## Editions
-
-| | Public | Dev |
-|---|---|---|
-| Optional taskbar shaping and lock-key notifications | Yes | Yes |
-| Media/volume flyouts, media widget, visualizer, next-track flyout | No | Yes |
-| Installers | MSI, EXE bootstrapper, unsigned MSIX | MSI only |
-| Source history | Immutable `versions/<version>/` folders | Evolving branch, no version folders |
-| App branding | FluentTB | FluentTB Dev |
-
-Both editions start in the background and use the original theme-aware FluentTB tray artwork. Settings open through the tray. Dev is an edition name, not a Debug configuration: shipping builds use Release.
-
-The shared `FluentTB` mutex prevents two simultaneous taskbar owners. Different MSI identities allow separate installations, not simultaneous operation. A branch in a publicly visible GitHub repository is also public; naming it Dev does not make its source confidential. Select release assets deliberately to avoid publishing the private MSI.
-
-## Features and limits
-
-Taskbar shaping supports margins, rounding, dynamic regions and Windows Widgets visibility. Disabling its switch restores the Windows taskbar while other features continue. The media flyout has a separate monitor selection, defaulting to System's choice. Display selections use existing monitor indices; verify them after changing topology or display ordering.
-
-Caps/Num/Scroll Lock report the Windows toggle state. Insert reports a key press only: individual applications manage overwrite mode. Numeric NumPad 0 is not Insert while Num Lock is enabled. Visualization captures system audio, not guaranteed isolated audio from one app. Native Windows auto-hide currently suspends shaping to avoid flicker.
-
-## Source layout
-
-- `src/FluentTB.Desktop`: full Dev WPF host, flyouts, settings and localization.
-- `src/FluentTB`: shared taskbar/Win32 engine, producing `FluentTB.Taskbar.dll`.
-- `src/FluentTB.Public`: limited Public host without media/audio dependencies.
-- `src/Shared`: shared version information and lock-key classification.
-- `src/FluentFlyout.SourceGenerators`: full settings UI generator.
-- `src/Installer`: authoritative packaging and source-export scripts.
-- `assets/branding`: original artwork and icon-generation scripts.
-- `tests`, `docs`: verification and release-specific limitations.
-- `licenses`, `THIRD_PARTY_NOTICES.md`: required component attribution.
-
-Existing `FluentFlyoutWPF` and `FluentFlyout` namespaces are retained intentionally. Blind renaming can break XAML, generated code and settings serialization. User-facing branding does not replace upstream copyright notices.
-
-## Build prerequisites
-
-Windows 11 and the **.NET 10 SDK** are required. This is modern .NET, not legacy .NET Framework. Target: `net10.0-windows10.0.22000.0`. Installer builds are self-contained x64. Dependencies are pinned in the project files; do not update them during unrelated changes.
-
-The full host uses WPF-UI, MicaWPF, CommunityToolkit.Mvvm, Dubya.WindowsMediaController, NAudio, NLog and Toolkit notifications. The core uses Hardcodet.NotifyIcon, DesktopBridge.Helpers and Newtonsoft.Json. Do not transfer Dev-only package references into Public.
-
-```powershell
-dotnet build src/FluentTB.Desktop/FluentTB.Desktop.csproj -c Release -p:Platform=x64
-./src/Installer/Build-Editions.ps1 -Edition Dev
+```text
+FluentTB Dev-Edition/
+  Source/                 # this Git checkout (Dev-Edition branch)
+  Outputs/
+    2026.3.8.0/
+      src/                # exact Dev source compiled for this version
+      FluentTB-Dev-2026.3.8.0-x64.msi
+      SHA256.json
 ```
 
-MSI packaging needs WiX 3.14 at the path checked by the script. Public additionally needs Inno Setup (`ISCC.exe` on PATH) and the Windows SDK (`makeappx.exe`). `-Edition Private` remains an alias for Dev. Explicitly use `-Edition Dev` on this branch; use `All` only to deliberately prepare both editions.
+## Architecture and dependencies
 
-Output: `src/Installer/Output/v<version>/Dev`. Signing, certificates, Store identity, installing and uploading are separate actions. Never commit generated bin/obj/packages/Output, logs, local settings or reference repositories.
+- src/FluentTB.Desktop: .NET 10 WPF host, settings, media/volume/lock-key flyouts, taskbar media widget, audio visualizer and shell integration. Existing FluentFlyout namespaces are retained.
+- src/FluentTB: taskbar engine, clipping, margins, rounding, multi-monitor geometry and shell recovery.
+- src/FluentFlyout.SourceGenerators: build-time settings/search generator.
+- src/Shared: edition-local release and lock-key helpers.
+- src/Installer: local MSI build and source export scripts. No public executable project is included.
 
-## Versions and MSI updates
+Pinned host dependencies: Dubya.WindowsMediaController 2.5.6, MicaWPF 6.3.2, Microsoft.Toolkit.Uwp.Notifications 7.1.3, NAudio 2.3.0, NLog 6.1.3, unchihugo.WPF-UI 4.4.2, WPF-UI.Tray 4.3.0 and CommunityToolkit.Mvvm 8.4.2. Core retains Hardcodet.NotifyIcon.Wpf 2.0.1, DesktopBridge 1.2.2 and Newtonsoft.Json 13.0.3. See project files for authoritative versions. The SDK preview language setting supports the existing generated partial properties; this is .NET 10, not .NET Framework.
 
-Use `Update-Version.ps1 -NewVersion 2026.3.6.0` to set the four-part YEAR.QUARTER.BUILD.REVISION version. MSI maps it to `(year-2000).quarter.(build*100+revision)`; revision must stay below 100. Increment versions for changed releases. Store MSIX submissions also require the assigned identity and Store version constraints.
+Dev MSI UpgradeCode: 3473725A-0928-478A-9610-32F74029B2DB. The former Private edition uses the same identity and settings. -Edition Private remains a command-line alias for Dev.
 
-Preserve these UpgradeCodes for ordinary updates:
+## Automatic widget placement
 
-- Dev/private: `{3473725A-0928-478A-9610-32F74029B2DB}`.
-- Public: `{A1B2C3D4-E5F6-4890-ABCD-1234567890AB}`.
+Windows taskbar alignment is read at startup and each existing 1.5-second position update. Centered alignment places the media widget at the start side, beside the native Windows widget. Left alignment places it at the end side, before the native widget or notification area. Actual native widget/tray bounds determine spacing on the selected monitor. DPI, rounding and the custom offset still apply.
 
-MSIs receive new ProductCodes. A higher version retaining the edition's UpgradeCode replaces the previous installation in a rollback-capable transaction. Do not swap identities or reuse lower versions. This is installer-driven updating, not an automatic download service.
+Automatic placement is enabled for new settings and older XML files without the new field. Disable “Automatically follow Windows taskbar alignment” to use the saved Left/Center/Right selection. Vertical taskbars retain manual placement. Changing Windows alignment does not require reopening FluentTB. Missing registry values use the Windows 11 centered default; temporary read failures retain the last known value.
 
-## Public source snapshots; no Dev snapshots
+Audio visualization retries unavailable capture endpoints while playback and the widget/visualization are enabled. Stopping or disabling the feature cancels recovery; normal silence does not trigger repeated capture restarts.
 
-Beginning with 2026.3.6.0, Public builds export `versions/<version>/` before compiling the public app from that source. The snapshot contains the Public dependency closure, licenses and build scripts. Its small FluentTB.Desktop subtree contains linked public UI/resources, not the Dev application.
+## Build and release layout
 
-`source-snapshot.json` records SHA-256 hashes. Identical repeated exports are allowed. Changed source with the same version, or a modified archived file, causes an error; old source is never replaced. Build output and previous archives are excluded. Do not reconstruct historical versions from today's code.
+Use Windows 11 and the .NET 10 SDK. Each Source checkout is self-contained and has its own copies of shared code; there are no references to the sibling edition or the archived integration tree.
 
-Dev remains a normal evolving branch without per-version source folders. Keep public versions/ changes on the public branch rather than merging archives into Dev to synchronize shared fixes.
+```powershell
+dotnet build FluentTB.slnx -c Release -p:Platform=x64
+./Update-Version.ps1 -NewVersion 2026.3.8.0
+./src/Installer/Build-Editions.ps1
+```
 
-## Settings compatibility
+The build reads edition.json and refuses the other edition. All means only the edition of this checkout. It exports Source to ../Outputs/<version>/src before compiling that snapshot. Installers and SHA256.json sit beside src, never inside it. A source-snapshot.json file records the edition, version and source hashes. An existing source snapshot cannot be replaced with changed source; increment the version first. Build scripts can also run inside an archived src folder, after verifying its hashes. Generated build files are excluded from source archives.
 
-- Taskbar JSON normally uses `%LOCALAPPDATA%/FluentTB/fluent-tb.json`; packaged-core behavior uses its existing `%APPDATA%/FluentTB` location. Do not silently relocate settings.
-- Dev: `%APPDATA%/FluentTB/flyouts.xml`.
-- Public lock-key settings: `%LOCALAPPDATA%/FluentTB/public.json`.
-- Core settings may be shared between editions; flyout settings are separate.
-- Old JSON without a shape switch defaults to enabled. Explicit false must survive both copy paths, serialization and restart.
-- A missing media monitor override inherits the global target display.
-- The old NIconSymbol field remains readable, but no longer selects the app logo as tray artwork.
-- MSI upgrades must not delete user settings or harvest them into installer components.
+MSI packaging requires WiX 3.14 at the path checked by the script. Public additionally requires Inno Setup (ISCC.exe on PATH) and the Windows SDK (makeappx.exe). Release output is self-contained and contains no PDB files. Signing, installation and remote publication are separate steps.
 
-## Avoiding branch conflicts
+Version format: YEAR.QUARTER.BUILD.REVISION. MSI maps this to (year-2000).quarter.(build*100+revision), with revision below 100. Preserve the edition UpgradeCode when incrementing a version so its MSI updates the previous installation. Never install both editions to own the taskbar simultaneously.
 
-1. Check branch and working-tree status before checkout/merge. Use focused commits per fix or feature.
-2. Develop full-host features on Dev-Edition. Transfer shared fixes deliberately into Public, reviewing core, shared code, linked taskbar UI and localization.
-3. Do not merge the entire Dev host/media dependencies into Public to obtain a shared fix.
-4. Maintain README.Dev.md in the integration tree; use its content as the Dev branch's root README.md. Public snapshots receive their own generated README.
-5. Do not resolve archive conflicts by regenerating old versions from current code. Increment the public version and create a new folder.
-6. Test both editions for shared changes. Preserve upgrade identities and all license notices.
-7. Select only the intended edition's installers for publishing. A local successful build is not a published release or an installed update.
+## Shared changes and repository boundaries
+
+Source is the Git checkout. Keep Outputs, bin, obj, packages, logs, local user settings and reference repositories out of commits. Develop Dev-only features in Dev-Edition. Port changes to the taskbar core, shared keyboard code or taskbar UI deliberately to Public and test both copies. Do not merge the complete Dev host into Public for a shared change. No sibling checkout is required to compile.
+
+## Settings and notices
+
+Taskbar settings retain their existing JSON location under LOCALAPPDATA/FluentTB (or the packaged core's APPDATA/FluentTB path). Dev flyouts use APPDATA/FluentTB/flyouts.xml, Public lock keys use LOCALAPPDATA/FluentTB/public.json. MSI upgrades must retain these settings. Missing taskbar-enable settings default to enabled; explicit false remains preserved.
+
+FluentTB: Shinob1Kai. RoundedTB: torchgm and contributors. FluentFlyout: Hugo Li (unchihugo) and contributors. Applicable notices remain in LICENSE, THIRD_PARTY_NOTICES.md and licenses/. FluentFlyout is separate from the unrelated FluentFlyouts application.
 
 ## Verification
 
 ```powershell
 dotnet run --project tests/FluentTB.Tests/FluentTB.Tests.csproj
+dotnet run --project tests/FluentTB.AudioRecoveryTests/FluentTB.AudioRecoveryTests.csproj
 dotnet run --project tests/FluentTB.BindingTests/FluentTB.BindingTests.csproj -p:Platform=x64 -- src/FluentTB.Desktop/Pages/FluentTaskbarPage.xaml
 ./tests/Localization.Tests.ps1
-./tests/PublicSource.Tests.ps1
-./tests/Release-Editions.Tests.ps1 -Version 2026.3.6.0
+./tests/SourceArchive.Tests.ps1
+./tests/Release.Tests.ps1
 ```
 
-Installer verification expects both edition outputs; use it after an intentional All build. Also check cold background startup, tray settings access, light/dark Windows tray artwork, shaping off/on and restart while off, both alignments, mixed DPI, media monitor, lock keys/physical NumPad Insert, Explorer restart and TranslucentTB combinations.
+Manual checks: enable automatic placement and switch Windows alignment left/center; repeat on both monitors and at different DPI settings, with native Widgets enabled/disabled, shaping enabled/disabled and Explorer restarted. Verify widget manual positioning after disabling automatic placement. Check Windows-logon audio recovery, media target monitor and physical NumPad Insert separately. Automated tests do not establish live shell behavior; ask before desktop control or provide manual steps.
 
-Automated checks do not prove live shell behavior. Record existing upstream warnings and unverified combinations in release notes. Ask before taking desktop control, or provide manual test steps instead.
+## Installer license (2026.3.9.0)
 
-## Credits and licenses
+The interactive MSI wizard embeds the complete canonical GNU GPL v3 text, identifies this combined application as GPL-3.0-or-later, and retains the original FluentTB MIT notice and component credits. Next remains disabled until the license checkbox is selected. Build-License.ps1 generates the RTF from the release snapshot; WiX uses it through WixUILicenseRtf. Package tests read and decode the actual MSI text and verify the acceptance controls. The Public EXE launches the same MSI wizard. MSIX uses the Windows-managed installer and has no custom MSI license page.
 
-FluentTB: **Shinob1Kai**. RoundedTB: **torchgm and contributors**. FluentFlyout integration: **Hugo Li (unchihugo) and contributors**. FluentFlyout (singular) is separate from the unrelated FluentFlyouts application. Retain applicable GPL/MIT licenses and attribution; Dev branding does not change third-party ownership.
+Sources: https://www.gnu.org/licenses/gpl-3.0.txt and https://docs.firegiant.com/wix3/wixui/wixui_customizations/
+
+## Visualization output selection (2026.3.10.0)
+
+The widget visualization settings list Windows output devices directly in the app. Windows default follows the multimedia output endpoint. A specific device is persisted by endpoint ID, so device ordering or identical display names do not change the selection. An unavailable saved device stays selected, is labelled unavailable, and is retried by the existing capture recovery loop. The list refreshes when the page or dropdown opens. Device enumeration runs off the UI thread and stale responses are ignored after navigation.
+
+This selects the audio source for the visualization; it does not reroute music or change the Windows default output. The old Windows Settings hyperlink has been removed. All 29 locales have the new selection labels and description.
+
+Validation: 18 audio-device checks passed, including legacy XML, saved ID/default round-trips, resolving 11 available endpoints by ID and an unavailable endpoint without default fallback. The endpoint test is read-only and does not capture audio. Run it with:
+
+    dotnet run --project tests/FluentTB.AudioDeviceTests/FluentTB.AudioDeviceTests.csproj -p:Platform=x64
+
+Manual test: play music on the chosen device and check the bars; switch to another endpoint and back to Windows default; restart the app and disconnect/reconnect the selected device. Allow up to three seconds for capture recovery. Live playback and the visible dropdown have not been tested through desktop control.
+
+## First-run storage fix (2026.3.11.0)
+
+The taskbar engine now creates the configuration and log parent directories before opening files. Fresh profiles no longer fail when LOCALAPPDATA/FluentTB is absent. The same initialization covers the existing packaged-app Roaming path. This is performed by the application for the launching user, not by a machine-wide MSI under the installing administrator's profile. Existing settings are preserved; missing/empty settings receive the existing defaults. A locked log alone does not block startup, and saving settings recreates a missing configuration directory.
+
+Regression checks reproduce the old DirectoryNotFoundException in isolated temporary Local/Roaming profile directories, then exercise the actual new storage initializer: files/defaults, exact preservation of existing settings, empty-file recovery and a locked log. Both editions pass 165 core assertions. These tests do not install software or launch the taskbar hooks on a clean Windows account.

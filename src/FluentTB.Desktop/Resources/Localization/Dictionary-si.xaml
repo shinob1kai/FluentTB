@@ -1,0 +1,48 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="TitleText">වෙනස්කම්</system:String>
+    <system:String x:Key="HomeTitle">මුල් පිටුව</system:String>
+    <system:String x:Key="Enabled">ඔන් කලා</system:String>
+    <system:String x:Key="Disabled">ඕෆ් කලා</system:String>
+    <system:String x:Key="MediaFlyoutTitle">මීඩියා ෆ්ලයිඅවුට්</system:String>
+    <system:String x:Key="MediaFlyoutDescription">ඔයා මොකක් හරි ප්ලේ කරද්දි, ෆ්ලයිඅවුට් එක බලන්න ඕනි නම්, play/pause බටන් එක, සද්දෙ අඩු වැඩි කරන බටන් වගේ ඒව ඔබල බලන්න. එතකොට ඔයා ප්ලේ කරන සින්දුවෙ හරි වීඩියෝ එකේ හරි විස්තර මේකෙන් දැනගන්න පුලුවන්.</system:String>
+    <system:String x:Key="TextBlockText1">මීඩියා ෆ්ලයිඅවුට් එක ඔන් කරන්න</system:String>
+    <system:String x:Key="TextBlockText3">මීඩියා කී එකක් ඔබද්දි ෆ්ලයිඅවුට් එක පෙන්නන්න</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeTitle">සද්දෙ අඩු වැඩි කරන බටන් ඔබද්දි වැඩ කරන්න එපා</system:String>
+    <system:String x:Key="MediaFlyoutExcludeVolumeDescription">සද්දෙ අඩු වැඩි කරන, සද්දෙ නැති කරන (mute) බටන් ඔබද්දි වැඩ කරන්නෙ නෑ</system:String>
+    <system:String x:Key="TextBlockText2">පසුබිම බොද කරන ස්ටයිල් එකක් තෝරගන්න</system:String>
+    <system:String x:Key="BackgroundBlurOption1" xml:space="preserve"> මොකුත් එපා</system:String>
+    <system:String x:Key="BackgroundBlurOption2" xml:space="preserve"> Cover එක දිලිසෙන (Style 1)</system:String>
+    <system:String x:Key="BackgroundBlurOption3" xml:space="preserve"> ඉර පායනවා වගේ දිලිසෙන (Style 2)</system:String>
+    <system:String x:Key="BackgroundBlurOption4" xml:space="preserve"> බොඳ වුන (Style 3)</system:String>
+    <system:String x:Key="FtbTaskbarTitle">කාර්ය තීරුවේ හැඩය</system:String>
+    <system:String x:Key="FtbTaskbarDescription">වටකුරු කොන් සහ වෙනස් කළ හැකි පරතර සමඟ කාර්ය තීරුව අභිරුචිකරණය කරන්න. ගතික ප්‍රකාරය දෘශ්‍ය කොටස් යෙදුම් නිරූපකවලට ගළපයි; පද්ධති තැටිය සහ Windows විජට් වෙන වෙනම පෙන්විය හැක. උත්පතන පැනලවලින් ස්වාධීනව කාර්ය තීරුවේ හැඩය වෙනස් කිරීම සක්‍රිය හෝ අක්‍රිය කරන්න.</system:String>
+    <system:String x:Key="FtbMargin">මායිම් ඉඩ</system:String>
+    <system:String x:Key="FtbRadius">කොන්වල අරය</system:String>
+    <system:String x:Key="FtbIndividual">වෙන වෙනම මායිම් ඉඩ</system:String>
+    <system:String x:Key="FtbSeparate">එක් එක් පැත්ත සඳහා වෙනම මායිම් ඉඩක් භාවිත කරන්න</system:String>
+    <system:String x:Key="FtbTop">ඉහළ</system:String>
+    <system:String x:Key="FtbBottom">පහළ</system:String>
+    <system:String x:Key="FtbLeft">වම / පිටත</system:String>
+    <system:String x:Key="FtbRight">දකුණ / ඇතුළත</system:String>
+    <system:String x:Key="FtbDynamic">ගතික ප්‍රකාරය</system:String>
+    <system:String x:Key="FtbDynamicDescription">වත්මන් යෙදුම් බොත්තම්වලට ගැළපෙන ලෙස කාර්ය තීරුව සකසන්න.</system:String>
+    <system:String x:Key="FtbTray">පද්ධති තැටිය</system:String>
+    <system:String x:Key="FtbTrayDescription">දැනුම්දීම් අයිකන සහ ඔරලෝසුව පෙනෙන ලෙස තබන්න.</system:String>
+    <system:String x:Key="FtbHover">දර්ශකය ළං වූ විට තැටිය පෙන්වන්න</system:String>
+    <system:String x:Key="FtbHoverDescription">දර්ශකය ළං වූ විට පද්ධති තැටිය පෙන්වන්න.</system:String>
+    <system:String x:Key="FtbWidgets">Windows විජට්</system:String>
+    <system:String x:Key="FtbWidgetsDescription">කාර්ය තීරුවේ Windows විජට් ප්‍රදේශය තබාගන්න.</system:String>
+    <system:String x:Key="FtbMaximised">උපරිම කළ කවුළු</system:String>
+    <system:String x:Key="FtbMaximisedDescription">කවුළුවක් උපරිම කළ විට කාර්ය තීරුව පුරවන්න.</system:String>
+    <system:String x:Key="FtbAltTab">Alt+Tab</system:String>
+    <system:String x:Key="FtbAltTabDescription">කවුළු අතර මාරු වන විට කාර්ය තීරුව පුරවන්න.</system:String>
+    <system:String x:Key="FtbCompatibility">TranslucentTB අනුකූලතාව</system:String>
+    <system:String x:Key="FtbCompatibilityDescription">කාර්ය තීරුවේ විනිවිදභාවය පාලනය කරන වෙනම යෙදුම සැලකිල්ලට ගන්න.</system:String>
+    <system:String x:Key="FtbApply">වෙනස්කම් යොදන්න</system:String>
+    <system:String x:Key="FtbSaved">කාර්ය තීරු සැකසුම් සුරකින ලදී</system:String>
+    <system:String x:Key="FtbOtherPages">සංගීත විජට්, දෘශ්‍යකරණ සහ උත්පතන පැනල සඳහා පැති තීරුවේ වෙනම පිටු ඇත.</system:String>
+    <system:String x:Key="TaskbarWidgetFollowAlignment">Windows කාර්ය තීරුවේ පෙළගැස්ම ස්වයංක්‍රීයව අනුගමනය කරන්න</system:String>
+    <system:String x:Key="VisualizerDefaultDevice">Windows පෙරනිමිය</system:String>
+    <system:String x:Key="VisualizerUnavailableDevice">තෝරාගත් උපාංගය නොමැත</system:String>
+    <system:String x:Key="TaskbarVisualizerOutputDeviceDescription">තීරු මඟින් ශබ්දය දෘශ්‍යකරණය කරන ප්‍රතිදාන උපාංගය තෝරන්න.</system:String>
+</ResourceDictionary>

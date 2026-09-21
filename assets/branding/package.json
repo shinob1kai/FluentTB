@@ -1,0 +1,6 @@
+{
+  "name": "fluenttb-icon-build",
+  "private": true,
+  "scripts": { "render": "node render-svg.cjs" },
+  "devDependencies": { "@resvg/resvg-js": "2.6.2" }
+}

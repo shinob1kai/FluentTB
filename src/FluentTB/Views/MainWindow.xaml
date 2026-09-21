@@ -1,0 +1,22 @@
+<!-- Internal adapter for the legacy taskbar controller. User-facing settings live in FluentTB.Desktop/Pages/FluentTaskbarPage.xaml. -->
+<Window x:Class="FluentTB.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:tb="http://www.hardcodet.net/taskbar"
+ Title="FluentTB Taskbar Host" Width="1" Height="1" ShowInTaskbar="False" Visibility="Hidden">
+ <StackPanel>
+  <tb:TaskbarIcon x:Name="TrayIcon" Visibility="Collapsed"><tb:TaskbarIcon.ContextMenu><ContextMenu>
+   <CheckBox x:Name="StartupCheckBox"/><MenuItem x:Name="DebugMenuItem"/><MenuItem x:Name="ShowMenuItem"/><MenuItem x:Name="CloseMenuItem"/>
+  </ContextMenu></tb:TaskbarIcon.ContextMenu></tb:TaskbarIcon>
+  <TextBox x:Name="marginInput"/><TextBox x:Name="cornerRadiusInput"/>
+  <Slider x:Name="marginSlider" Maximum="100"/><Slider x:Name="cornerRadiusSlider" Maximum="100"/>
+  <Button x:Name="advancedMarginsButton"/>
+  <TextBox x:Name="mTopInput"/><TextBox x:Name="mBottomInput"/><TextBox x:Name="mLeftInput"/><TextBox x:Name="mRightInput"/>
+  <Label x:Name="mLeftLabel"/><Label x:Name="mRightLabel"/>
+  <CheckBox x:Name="dynamicCheckBox"/><CheckBox x:Name="centredCheckBox"/>
+  <CheckBox x:Name="showTrayCheckBox"/><CheckBox x:Name="showTrayOnHoverCheckBox"/>
+  <CheckBox x:Name="fillMaximisedCheckBox"/><CheckBox x:Name="fillAltTabCheckBox"/>
+  <CheckBox x:Name="compositionFixCheckBox"/><CheckBox x:Name="widgetsCheckBox"/>
+  <!-- Retained only to round-trip the previous prototype's settings during migration. -->
+  <CheckBox x:Name="musicEnabledCheckBox"/><CheckBox x:Name="musicArtistCheckBox"/>
+  <CheckBox x:Name="musicControlsCheckBox"/><CheckBox x:Name="musicIdleCheckBox"/><CheckBox x:Name="musicMonitorsCheckBox"/>
+ </StackPanel>
+</Window>

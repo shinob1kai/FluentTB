@@ -1,17 +1,19 @@
-FluentTB Version 2026.3.1
+FluentTB Version 2026.3.11.0
+Version scheme: YEAR.QUARTER.BUILD.REVISION
 
-Version Format: YEAR.QUARTER.BUILD
-- YEAR: Current year (e.g., 2026)
-- QUARTER: Quarter number 1-4 (Q3 = July-September)
-- BUILD: Incremental build number within quarter
+Current Version: 2026.3.11.0
+Build Date: 2026-09-20
+Status: local release build; not published to GitHub or Microsoft Store
 
-Current Version: 2026.3.1
-Release Date: 2026-07-31 (Q3 2026)
+Editions:
+- Public: taskbar shape and lock-key flyout (MSI, EXE installer, unsigned MSIX)
+- Dev (formerly Private): complete FluentFlyout merge (MSI only)
 
-Version History:
-- 2026.3.1 - Initial release with RoundedTB UI
-
-Next versions:
-- 2026.3.2 - Next build in Q3 2026
-- 2026.4.1 - First build in Q4 2026 (Oct-Dec)
-- 2027.1.1 - First build in Q1 2027 (Jan-Mar)
+History:
+2026.3.6.0 - Background startup, original theme-aware tray icons, corrected tray names and immutable Public source snapshots.
+2026.3.5.0 - Optional taskbar shaping, independent media-flyout monitor, updated demo artwork.
+2026.3.4.0 - Floating taskbar introduction in both editions, prominent Insert setting, transactional Dev MSI upgrade.
+2026.3.3.0 - Consistent Insert/Num-Lock flyouts; private edition renamed Dev with dedicated artwork.
+2026.3.2.1 - Restore original Home layout; public dashboard limited to taskbar shape and lock keys.
+2026.3.2.0 - Edition split, Home overview and reliable four-part Release version.
+2026.3.1 - Previous FluentTB version.
