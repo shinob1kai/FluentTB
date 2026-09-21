@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseWPF>true</UseWPF>
+    <StartupObject>FluentTB.Tests.Program</StartupObject>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/FluentTB/FluentTB.csproj" />
+    <Compile Include="../TaskbarSnapshot.cs" Link="TaskbarSnapshot.cs" />
+  </ItemGroup>
+<ItemGroup><Compile Include="../../src/Shared/LockKeyNotification.cs" Link="LockKeyNotification.cs" /></ItemGroup></Project>

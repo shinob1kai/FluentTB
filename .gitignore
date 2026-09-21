@@ -113,3 +113,15 @@ nuget.exe
 !docs/assets/*.exe
 !docs/assets/*.msi
 !docs/assets/*.zip
+!docs/assets/*.msix
+
+**/Outputs/
+
+# Repository branches contain source, not release packages or signing keys.
+*.msi
+*.msix
+*.msixbundle
+*.exe
+*.zip
+*.pfx
+*.p12

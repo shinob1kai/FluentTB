@@ -18,6 +18,8 @@
       <!-- Windows 11 -->
       <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>
     </application>
+    <!-- Declare x64-only to prevent Windows marking the EXE as 32-bit compatible -->
+    <supportedArchitectures>amd64</supportedArchitectures>
   </compatibility>
 
   <asmv3:application>

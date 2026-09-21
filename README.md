@@ -1,141 +1,69 @@
-# FluentTB
+# FluentTB — Public edition
 
-**Customize your Windows 11 taskbar with rounded corners, margins, and transparency.**
+Windows 11 taskbar shaping and lock-key flyouts. This source tree does not contain the Dev media/widget implementation or its audio dependencies.
 
-[![Version](https://img.shields.io/badge/version-2026.3.1-blue.svg)](https://github.com/shinob1kai/FluentTB/releases)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Windows 11](https://img.shields.io/badge/platform-Windows%2011-0078D4.svg)](https://www.microsoft.com/windows)
+Local layout:
 
-## ✨ Features
+```text
+FluentTB/
+  Source/                 # this Git checkout
+  Outputs/
+    2026.3.8.0/
+      src/                # exact source compiled for this version
+      FluentTB-Public-2026.3.8.0-x64.msi
+      FluentTB-Public-2026.3.8.0-x64-Setup.exe
+      FluentTB-Public-2026.3.8.0-x64.msix
+      SHA256.json
+```
 
-- **Rounded Corners** - Add customizable corner radius to your taskbar
-- **Custom Margins** - Adjust taskbar margins (top, bottom, left, right)
-- **Basic & Advanced Modes** - Simple slider or individual margin control
-- **Show/Hide System Tray** - Toggle system tray visibility with Win+F2
-- **TranslucentTB Compatible** - Works alongside TranslucentTB for transparency
-- **Fill on Maximize** - Auto-expand taskbar when windows are maximized
-- **Multiple Monitors** - Full support for multi-monitor setups
+The small src/FluentTB.Desktop directory contains only linked taskbar UI, translations, app manifest and demo resources. It does not contain a Desktop project or the Dev host. src/FluentTB.Public is the executable, src/FluentTB the taskbar engine, src/Shared the keyboard/release helpers.
 
-## 📥 Download
+MSI UpgradeCode: A1B2C3D4-E5F6-4890-ABCD-1234567890AB. MSIX signing and the assigned Store identity still need publisher configuration.
 
-Download the latest version from the [Releases](https://github.com/shinob1kai/FluentTB/releases) page:
+## Build and release layout
 
-- **FluentTB-Setup-2026.3.1.exe** - Windows Installer (Recommended)
-- **FluentTB.msi** - MSI Package
-- **FluentTB-2026.3.1-Portable.zip** - Portable Version
-
-## 🚀 Installation
-
-### Using the Installer (Recommended)
-
-1. Download `FluentTB-Setup-2026.3.1.exe`
-2. Run the installer
-3. Launch FluentTB from Start Menu
-
-### Using MSI Package
-
-1. Download `FluentTB.msi`
-2. Double-click to install
-3. Launch FluentTB from Start Menu
-
-### Portable Version
-
-1. Download `FluentTB-2026.3.1-Portable.zip`
-2. Extract to any folder
-3. Run `FluentTB.exe`
-
-## 📖 Usage
-
-### Basic Margin Mode
-
-1. Launch FluentTB
-2. Use the **Margin** slider to adjust taskbar margins
-3. Click **Apply** to save changes
-
-### Advanced Margin Mode
-
-1. Click **Advanced margins...**
-2. Set individual margins for each side
-3. Use negative values to attach taskbar to screen edges
-4. Click **Apply**
-
-### Keyboard Shortcuts
-
-- **Win+F2** - Toggle system tray visibility
-
-## 🛠️ Building from Source
-
-### Prerequisites
-
-- Visual Studio 2022 or .NET SDK 6.0+
-- Windows 11 SDK
-- InnoSetup 6+ (for EXE installer)
-- WiX Toolset 3.14+ (for MSI installer)
-
-### Build Steps
+Use Windows 11 and the .NET 10 SDK. Each Source checkout is self-contained and has its own copies of shared code; there are no references to the sibling edition or the archived integration tree.
 
 ```powershell
-# Clone the repository
-git clone https://github.com/shinob1kai/FluentTB.git
-cd FluentTB
-
-# Build the application
-cd src/FluentTB
-dotnet build FluentTB.csproj -c Release
-
-# Create installers (optional)
-cd ../Installer
-.\Build-Installer.ps1
+dotnet build FluentTB.slnx -c Release -p:Platform=x64
+./Update-Version.ps1 -NewVersion 2026.3.8.0
+./src/Installer/Build-Editions.ps1
 ```
 
-## 📂 Project Structure
+The build reads edition.json and refuses the other edition. All means only the edition of this checkout. It exports Source to ../Outputs/<version>/src before compiling that snapshot. Installers and SHA256.json sit beside src, never inside it. A source-snapshot.json file records the edition, version and source hashes. An existing source snapshot cannot be replaced with changed source; increment the version first. Build scripts can also run inside an archived src folder, after verifying its hashes. Generated build files are excluded from source archives.
 
+MSI packaging requires WiX 3.14 at the path checked by the script. Public additionally requires Inno Setup (ISCC.exe on PATH) and the Windows SDK (makeappx.exe). Release output is self-contained and contains no PDB files. Signing, installation and remote publication are separate steps.
+
+Version format: YEAR.QUARTER.BUILD.REVISION. MSI maps this to (year-2000).quarter.(build*100+revision), with revision below 100. Preserve the edition UpgradeCode when incrementing a version so its MSI updates the previous installation. Never install both editions to own the taskbar simultaneously.
+
+## Shared changes and repository boundaries
+
+Source is the Git checkout. Keep Outputs, bin, obj, packages, logs, local user settings and reference repositories out of commits. Develop Dev-only features in Dev-Edition. Port changes to the taskbar core, shared keyboard code or taskbar UI deliberately to Public and test both copies. Do not merge the complete Dev host into Public for a shared change. No sibling checkout is required to compile.
+
+## Settings and notices
+
+Taskbar settings retain their existing JSON location under LOCALAPPDATA/FluentTB (or the packaged core's APPDATA/FluentTB path). Dev flyouts use APPDATA/FluentTB/flyouts.xml, Public lock keys use LOCALAPPDATA/FluentTB/public.json. MSI upgrades must retain these settings. Missing taskbar-enable settings default to enabled; explicit false remains preserved.
+
+FluentTB: Shinob1Kai. RoundedTB: torchgm and contributors. FluentFlyout: Hugo Li (unchihugo) and contributors. Applicable notices remain in LICENSE, THIRD_PARTY_NOTICES.md and licenses/. FluentFlyout is separate from the unrelated FluentFlyouts application.
+
+## Verification
+
+```powershell
+dotnet run --project tests/FluentTB.Tests/FluentTB.Tests.csproj
+./tests/SourceArchive.Tests.ps1
+./tests/Release.Tests.ps1
 ```
-FluentTB/
-├── src/
-│   ├── FluentTB/           # Main application source
-│   └── Installer/          # Installer scripts
-├── LICENSE                 # MIT License
-├── README.md              # This file
-└── VERSION.txt            # Version information
-```
 
-## 🐛 Known Issues
+Verify both taskbar alignments, mixed-DPI monitors, taskbar shaping off/on, tray access and lock-key notifications before publishing. Local packaging does not publish a release.
 
-- **Dynamic Mode** - Currently disabled, will be fixed in future update
-- **Autohide** - Windows autohide is not supported due to flickering
-- **Orientation** - Works best with taskbar at top or bottom
+## Installer license (2026.3.9.0)
 
-## 🤝 Contributing
+The interactive MSI wizard embeds the complete canonical GNU GPL v3 text, identifies this combined application as GPL-3.0-or-later, and retains the original FluentTB MIT notice and component credits. Next remains disabled until the license checkbox is selected. Build-License.ps1 generates the RTF from the release snapshot; WiX uses it through WixUILicenseRtf. Package tests read and decode the actual MSI text and verify the acceptance controls. The Public EXE launches the same MSI wizard. MSIX uses the Windows-managed installer and has no custom MSI license page.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Sources: https://www.gnu.org/licenses/gpl-3.0.txt and https://docs.firegiant.com/wix3/wixui/wixui_customizations/
 
-## 📝 License
+## First-run storage fix (2026.3.11.0)
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The taskbar engine now creates the configuration and log parent directories before opening files. Fresh profiles no longer fail when LOCALAPPDATA/FluentTB is absent. The same initialization covers the existing packaged-app Roaming path. This is performed by the application for the launching user, not by a machine-wide MSI under the installing administrator's profile. Existing settings are preserved; missing/empty settings receive the existing defaults. A locked log alone does not block startup, and saving settings recreates a missing configuration directory.
 
-## 👤 Author
-
-**Shinob1Kai**
-
-- GitHub: [@shinob1kai](https://github.com/shinob1kai)
-
-## 🙏 Acknowledgments
-
-- Based on [RoundedTB](https://github.com/torchgm/RoundedTB) by torchgm
-- Inspired by macOS dock behavior
-- Uses [ModernWPF](https://github.com/Kinnara/ModernWpf) for UI theming
-
-## 📊 Version History
-
-See [VERSION.txt](VERSION.txt) for detailed version history.
-
-### Current Version: 2026.3.1
-
-- Initial release with RoundedTB UI
-- Dynamic mode temporarily disabled
-- Config files moved to %LOCALAPPDATA%\FluentTB\
-
----
-
-**Note:** This is a Windows 11 taskbar customization tool. Use at your own risk.
+Regression checks reproduce the old DirectoryNotFoundException in isolated temporary Local/Roaming profile directories, then exercise the actual new storage initializer: files/defaults, exact preservation of existing settings, empty-file recovery and a locked log. Both editions pass 165 core assertions. These tests do not install software or launch the taskbar hooks on a clean Windows account.
