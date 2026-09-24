@@ -31,7 +31,6 @@ Download **FluentTB Public 2026.3.11.0** from [GitHub Releases](https://github.c
 | --- | --- |
 | [FluentTB-Public-2026.3.11.0-x64-Setup.exe](https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.11.0/FluentTB-Public-2026.3.11.0-x64-Setup.exe) | Recommended EXE installer; launches the same MSI installation wizard. |
 | [FluentTB-Public-2026.3.11.0-x64.msi](https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.11.0/FluentTB-Public-2026.3.11.0-x64.msi) | Direct Windows Installer package. |
-| [FluentTB-Public-2026.3.11.0-x64.msix](https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.11.0/FluentTB-Public-2026.3.11.0-x64.msix) | **Unsigned packaging artifact**, requiring signing and publisher identity configuration before deployment. Use MSI/EXE for installation. |
 | [Exact build source ZIP](https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.11.0/FluentTB-Public-2026.3.11.0-source.zip) | Archived source used to build the installers, including its hash manifest. |
 | [SHA256SUMS.txt](https://github.com/shinob1kai/FluentTB/releases/download/v2026.3.11.0/SHA256SUMS.txt) | Checksums for the installers and exact-source archive. |
 
